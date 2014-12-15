@@ -98,15 +98,16 @@ unitDef = {
 
     FLAMETHROWER = {
       name                    = [[Flamethrower]],
-      areaOfEffect            = 64,
+      areaOfEffect            = 0,
       avoidFeature            = false,
       avoidFriendly           = false,
       collideFeature          = false,
-      collideGround           = false,
+      collideGround           = true,
       coreThickness           = 0,
       craterBoost             = 0,
       craterMult              = 0,
       cegTag                  = [[flamer]],
+      collisionSize			  = 32,
 
 	  customParams        	  = {
 		flamethrower = [[1]],
@@ -125,6 +126,7 @@ unitDef = {
       fireStarter             = 100,
       impulseBoost            = 0,
       impulseFactor           = 0,
+      impactOnly              = true,
       intensity               = 0.3,
       interceptedByShieldType = 1,
       noExplode               = true,
