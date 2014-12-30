@@ -97,7 +97,7 @@ unitDef = {
         subs    = 0.8,
       },
 
-      duration                = 0.02,
+      duration                = 0.04,
       edgeEffectiveness       = 1,
       explosionGenerator      = [[custom:flash1orange]],
       fireStarter             = 10,
@@ -116,6 +116,8 @@ unitDef = {
       soundTrigger            = true,
       startsmoke              = [[1]],
       thickness               = 2.25,
+      texture1                = [[blaster]],
+      texture2                = [[null]],
       tolerance               = 1000,
       turnRate                = 48000,
       turret                  = true,

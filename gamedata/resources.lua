@@ -75,6 +75,7 @@ local resources = {
       ["3explo"]= "cc/3explo.tga",
       AAsmoketrail= "AAsmoketrail.tga",
       bigexplo= "cc/bigexplo.tga",
+      blaster=  "blaster.tga",
       bloodblast= "pd/bloodblast.png",
       bloodblastwhite= "pd/bloodblastwhite.tga",
       blooddrop= "pd/blooddrop.png",
@@ -172,6 +173,7 @@ local resources = {
       whitelightb= "pd/whitelightningball.tga",
 	  whitelightgpl = 'GPL/lightw.png',
 	  sonic_glow = "sonic_glow.png",
+	  plasma_glow = "plasma_glow_alpha.png",
 	  },
 	},
 }
