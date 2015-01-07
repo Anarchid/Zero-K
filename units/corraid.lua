@@ -113,6 +113,7 @@ unitDef = {
       reloadtime              = 2,
       soundHit                = [[weapon/cannon/cannon_hit2]],
       soundStart              = [[weapon/cannon/medplasma_fire]],
+      separation              = 0.25,
       size                    = 10,
       stages                  = 5,
       startsmoke              = [[1]],
