@@ -18,6 +18,9 @@ function gadget:GetInfo()
 	}
 end
 
+local spSpawnCEG = Spring.SpawnCEG
+
+local BUBBLE_CEG = [[sonictrail]]
 local SFXTYPE_WAKE1 = 2
 local SFXTYPE_WAKE2 = 3
 
@@ -32,7 +35,7 @@ function canWade(unitDefID)
     local moveDef = UnitDefs[unitDefID].moveDef
     if (moveDef and moveDef.family) then
         local mdFamily = moveDef.family
-        if mdFamily == "kbot" or mdFamily == "tank" then
+        if mdFamily == "kbot" or mdFamily == "tank" or mdFamily == "ship" or mdFamily=="boat" then
             return true
         end
     end
@@ -77,19 +80,27 @@ function gadget:GameFrame(n)
             local x,y,z = Spring.GetUnitPosition(unitID)
             local h = unit[unitID].h
             if y and h then
-				-- emit wakes only when moving and not completely submerged
-				if y > -h and y <= 0 and isMoving(unitID) and not Spring.GetUnitIsCloaked(unitID) then 
-					local radius = Spring.GetUnitRadius(unitID)
-					local effect = SFXTYPE_WAKE1
-					if radius > 50 then 
-						effect = SFXTYPE_WAKE2 
-					end
-					Spring.UnitScript.CallAsUnit(unitID, 
-						function()
-							Spring.UnitScript.EmitSfx(1,effect);
-						end
-					)
-				end
+				-- emit effects only when moving and not cloaked
+                if y <= 0 and isMoving(unitID) and not Spring.GetUnitIsCloaked(unitID) then
+                    if y > -h then
+                        local radius = Spring.GetUnitRadius(unitID)
+                        local effect = SFXTYPE_WAKE1
+                        if radius > 50 then 
+                            effect = SFXTYPE_WAKE2 
+                        end
+                        Spring.UnitScript.CallAsUnit(unitID, 
+                            function()
+                                Spring.UnitScript.EmitSfx(1,effect);
+                            end
+                        )
+                    else
+                        spSpawnCEG( BUBBLE_CEG,
+                            x,y,z,
+                            0,0,0,
+                            10+h, 10+h
+                        );
+                    end
+                end
 			else
 				gadget:UnitDestroyed(unitID)
             end
