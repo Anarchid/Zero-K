@@ -1,7 +1,7 @@
 return { strideremp = {
-    unitname            = [[striderbomb]],
-    name                = [[Sprawler]],
-    description         = [[EM Discharge Generator Tank]],
+    unitname            = [[strideremp]],
+    name                = [[Blackout]],
+    description         = [[EMP Discharge Generator]],
     acceleration        = 0.141,
     brakeRate           = 0.52,
     buildCostMetal      = 2200,
