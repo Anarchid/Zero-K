@@ -36,6 +36,7 @@ local FULL_GROW = 0.5
 local UPDATE_FREQUENCY = 25
 local NON_BLOCK_BUILD_FRAMES = 30
 local MIN_METAL_FOR_GROW_AND_TARGET = 15
+local SPAM_NEUTRAL_FRAMES = 60*30 -- No construction decay, so abandoned spam would stay neutral forever.
 
 local growUnit = {}
 local completeGrowUnit = {}
@@ -46,7 +47,7 @@ local unitScales = {}
 local origColvolCache = {}
 local origColvolOverride = {}
 local recentBuilderTimeout = {}
-local lowMetalNanoframe = {}
+local lowMetalNanoframe = {} -- unitID -> frame to stop being neutral
 
 local postCompleteGrowDefs = {}
 for i = 1, #UnitDefs do
@@ -284,9 +285,9 @@ local function CheckRecentBuilderTimeout(unitID, builderID)
 	local frame = Spring.GetGameFrame()
 	if recentBuilderTimeout[builderID] and recentBuilderTimeout[builderID] > frame then
 		Spring.SetUnitBlocking(unitID, true, false)
+		Spring.SetUnitNeutral(unitID, true)
+		lowMetalNanoframe[unitID] = frame + SPAM_NEUTRAL_FRAMES
 	end
-	Spring.SetUnitNeutral(unitID, true)
-	lowMetalNanoframe[unitID] = true
 	recentBuilderTimeout[builderID] = frame + NON_BLOCK_BUILD_FRAMES
 end
 
@@ -340,6 +341,12 @@ end
 
 function gadget:GameFrame(f)
 	if f%UPDATE_FREQUENCY == 12 then
+		for unitID, neutralEnd in pairs(lowMetalNanoframe) do
+			if neutralEnd < f then
+				Spring.SetUnitNeutral(unitID, false)
+				lowMetalNanoframe[unitID] = math.huge -- Stay non-blocking until grown.
+			end
+		end
 		for unitID, data in pairs(growUnit) do
 			if spValidUnitID(unitID) then
 				local buildProgress = select(5, spGetUnitHealth(unitID))
